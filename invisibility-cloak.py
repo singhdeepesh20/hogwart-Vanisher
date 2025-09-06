@@ -3,7 +3,7 @@ import numpy as np
 import sys
 import platform
 
-# ---------------- CONFIG ---------------- #
+
 CAM_INDEX = 0            
 MIRROR = True            
 WIN_NAME = "Invisibility Cloak"
@@ -12,7 +12,7 @@ CURRENT_COLOR = "red"
 SHOW_MASK = False        
 
 BACKEND = cv2.CAP_DSHOW if platform.system() == "Windows" else 0
-# ---------------------------------------- #
+
 
 def nothing(_):
     pass
@@ -54,7 +54,7 @@ def set_preset(color):
             "kernel": 3, "dilate": 1
         },
         "white": {
-            "r1": (0, 0, 120, 180, 80, 255),  # low saturation, high value
+            "r1": (0, 0, 120, 180, 80, 255),  
             "r2": (0, 0, 0, 0, 0, 0),
             "kernel": 5, "dilate": 2
         }
@@ -101,7 +101,7 @@ def read_hsv_ranges():
     V2max = cv2.getTrackbarPos("V2 max", "HSV Controls")
 
     kernel = cv2.getTrackbarPos("Kernel", "HSV Controls")
-    if kernel % 2 == 0:  # keep kernel odd
+    if kernel % 2 == 0:  
         kernel += 1
     dilate_iter = max(0, cv2.getTrackbarPos("Dilate", "HSV Controls"))
 
@@ -112,7 +112,7 @@ def read_hsv_ranges():
 
     return (lower1, upper1, lower2, upper2, kernel, dilate_iter)
 
-# ---------------- CAMERA INIT ---------------- #
+
 cap = cv2.VideoCapture(CAM_INDEX, BACKEND)
 if not cap.isOpened():
     cap = cv2.VideoCapture(CAM_INDEX)
@@ -131,7 +131,7 @@ if not SHOW_HSV:
 background = None
 font = cv2.FONT_HERSHEY_SIMPLEX
 
-# ---------------- MAIN LOOP ---------------- #
+
 while True:
     ok, frame = cap.read()
     if not ok:
@@ -146,7 +146,7 @@ while True:
     cv2.putText(display, "[b] capture bg   [1] red [2] blue [3] green [4] white  [h] HSV sliders  [m] mask  [q] quit",
                 (12, 28), font, 0.55, (255, 255, 255), 2, cv2.LINE_AA)
 
-    # Background capture
+
     if background is None:
         cv2.putText(display, "Step 1: Clear frame, press [b] to capture background.",
                     (12, 58), font, 0.6, (0, 255, 255), 2, cv2.LINE_AA)
@@ -163,7 +163,7 @@ while True:
             SHOW_HSV = True
             init_hsv_window(); set_preset(CURRENT_COLOR)
         elif key == ord('b'):
-            for _ in range(20):  # capture smoother background
+            for _ in range(20):  
                 ok, bg = cap.read()
                 if not ok: break
                 if MIRROR: bg = cv2.flip(bg, 1)
@@ -174,7 +174,7 @@ while True:
             cv2.waitKey(300)
         continue
 
-    # HSV + Mask
+
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
     try:
         lower1, upper1, lower2, upper2, ksz, dil_iter = read_hsv_ranges()
@@ -203,7 +203,7 @@ while True:
 
     cv2.imshow(WIN_NAME, output)
 
-    # Show mask debug view if enabled
+
     if SHOW_MASK:
         cv2.imshow("Mask Debug", mask)
     else:
