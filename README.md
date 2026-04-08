@@ -1,6 +1,6 @@
 # 🧙‍♂️ Hogwart-Vanisher — Real-Life Invisibility Cloak
 
-> Turn your camera into a magical invisibility cloak using Computer Vision.
+> Tun your camera into a magical invisibility cloak using Computer Vision.
 
 Hogwart-Vanisher is a fun and interactive AI-powered application that simulates an invisibility cloak effect using OpenCV and Streamlit. Inspired by the Harry Potter universe, the app detects a specific cloak color and replaces it with the captured background — making it appear invisible in real time.
 
